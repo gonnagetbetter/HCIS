@@ -11,7 +11,6 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { RoomsService } from './rooms.service';
 import { CreateRoomDto } from './dto/create-room.dto';
-import { FindHotelArgs } from '../hotels/args/find-hotel.args';
 import { FindRoomArgs } from './args/find-room.args';
 
 @ApiTags('rooms')
