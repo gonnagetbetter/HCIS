@@ -11,9 +11,10 @@ import { BookingRepository } from '../repositories/booking.repository';
 import { Hotel } from '../../hotels/entities/hotel.entity';
 import { Customer } from '../../customers/entities/customer.entity';
 import { Room } from '../../rooms/entities/room.entity';
+import { BasicEntity } from '../../common/basic-entity';
 
 @Entity({ repository: () => BookingRepository })
-export class Booking {
+export class Booking extends BasicEntity {
   @PrimaryKey({ autoincrement: true })
   @ApiProperty()
   id: number;

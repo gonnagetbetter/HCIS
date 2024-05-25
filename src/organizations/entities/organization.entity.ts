@@ -2,9 +2,10 @@ import { Entity, Enum, PrimaryKey, Property } from '@mikro-orm/postgresql';
 import { ApiProperty } from '@nestjs/swagger';
 import { OrganizationRole } from '../enums/organization-role.enum';
 import { OrganizationRepository } from '../repositories/organization.repository';
+import { BasicEntity } from '../../common/basic-entity';
 
 @Entity({ repository: () => OrganizationRepository })
-export class Organization {
+export class Organization extends BasicEntity {
   @PrimaryKey({ autoincrement: true })
   @ApiProperty()
   id: number;
