@@ -11,8 +11,6 @@ import { MikroOrmCoreModule } from '@mikro-orm/nestjs/mikro-orm-core.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import defineConfig from './mikro-orm.config';
-import { JwtModule } from '@nestjs/jwt';
-import { config } from './config';
 
 @Module({
   imports: [
