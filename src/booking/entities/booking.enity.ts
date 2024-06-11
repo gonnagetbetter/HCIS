@@ -13,7 +13,7 @@ import { Customer } from '../../customers/entities/customer.entity';
 import { Room } from '../../rooms/entities/room.entity';
 import { BasicEntity } from '../../common/basic-entity';
 
-@Entity({ repository: () => BookingRepository })
+@Entity({ tableName: 'bookings', repository: () => BookingRepository })
 export class Booking extends BasicEntity {
   @PrimaryKey({ autoincrement: true })
   @ApiProperty()
