@@ -7,8 +7,6 @@ import { CacheService } from '../cache/cache.service';
 import { BookingService } from '../booking/booking.service';
 import { OrganizationsService } from '../organizations/organizations.service';
 import { CreateHotelDto } from './dto/create-hotel.dto';
-import { Room } from '../rooms/entities/room.entity';
-import { FindRoomArgs } from '../rooms/args/find-room.args';
 import { FindHotelArgs } from './args/find-hotel.args';
 
 @Injectable()
