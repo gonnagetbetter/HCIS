@@ -7,10 +7,6 @@ export class CreateHotelDto {
 
   @IsNumber()
   @IsNotEmpty()
-  organizationId: number;
-
-  @IsNumber()
-  @IsNotEmpty()
   bookingId: number;
 
   @IsNumber()
