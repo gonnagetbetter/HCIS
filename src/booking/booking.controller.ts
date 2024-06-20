@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -7,15 +8,23 @@ import {
   ParseIntPipe,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { BookingService } from './booking.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { FindRoomArgs } from '../rooms/args/find-room.args';
 import { Booking } from './entities/booking.enity';
+import { AuthGuard } from '../auth/guards/auth.guard';
+import { Meta } from '../auth/decorators/meta.decorator';
+import { UserMeta } from '../auth/types/user-meta.type';
+import { Roles } from '../users/enums/roles.enum';
+import { RequiredRole } from '../auth/decorators/roles.decorator';
+import { RolesGuard } from '../auth/guards/roles.guard';
 
 @ApiTags('booking')
 @Controller('booking')
+@UseGuards(AuthGuard)
 export class BookingController {
   constructor(private readonly bookingService: BookingService) {}
 
@@ -24,7 +33,10 @@ export class BookingController {
     description: 'Booking has been successfully created.',
     type: Booking,
   })
-  create(@Body() createBookingDto: CreateBookingDto) {
+  @UseGuards(RolesGuard)
+  @RequiredRole(Roles.CUSTOMER)
+  create(@Body() createBookingDto: CreateBookingDto, @Meta() meta: UserMeta) {
+    createBookingDto.customerId = meta.id;
     return this.bookingService.create(createBookingDto);
   }
 
