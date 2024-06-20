@@ -3,7 +3,6 @@ import { CacheService } from '../cache/cache.service';
 import { RoomRepository } from './repositories/room.repository';
 import { EntityManager, FilterQuery } from '@mikro-orm/core';
 import { HotelsService } from '../hotels/hotels.service';
-import { BookingService } from '../booking/booking.service';
 import { BasicCrudService } from '../common/basic-crud.service';
 import { Room } from './entities/room.entity';
 import { CreateRoomDto } from './dto/create-room.dto';
@@ -16,7 +15,6 @@ export class RoomsService extends BasicCrudService<Room> {
     protected readonly cacheService: CacheService,
     protected readonly entityManager: EntityManager,
     protected readonly hotelsService: HotelsService,
-    protected readonly bookingService: BookingService,
   ) {
     super(Room, roomRepository, cacheService, entityManager);
   }
@@ -47,9 +45,6 @@ export class RoomsService extends BasicCrudService<Room> {
     const filter: FilterQuery<Room> = {};
     if (args.hotelId) {
       filter.hotel = await this.hotelsService.findOne(args.hotelId);
-    }
-    if (args.bookingId) {
-      filter.booking = await this.bookingService.findOne(args.bookingId);
     }
     return this.findMany(filter);
   }

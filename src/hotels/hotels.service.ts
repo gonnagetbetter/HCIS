@@ -4,7 +4,6 @@ import { Hotel } from './entities/hotel.entity';
 import { EntityManager, FilterQuery } from '@mikro-orm/core';
 import { HotelRepository } from './repositories/hotel.repository';
 import { CacheService } from '../cache/cache.service';
-import { BookingService } from '../booking/booking.service';
 import { OrganizationsService } from '../organizations/organizations.service';
 import { CreateHotelDto } from './dto/create-hotel.dto';
 import { FindHotelArgs } from './args/find-hotel.args';
@@ -16,7 +15,6 @@ export class HotelsService extends BasicCrudService<Hotel> {
     protected readonly cacheService: CacheService,
     protected readonly entityManager: EntityManager,
     protected readonly organizationService: OrganizationsService,
-    protected readonly bookingService: BookingService,
   ) {
     super(Hotel, hotelRepository, cacheService, entityManager);
   }
