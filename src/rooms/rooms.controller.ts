@@ -6,15 +6,18 @@ import {
   Param,
   ParseIntPipe,
   Post,
-  Query, UseGuards,
+  Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RoomsService } from './rooms.service';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { FindRoomArgs } from './args/find-room.args';
 import { AuthGuard } from '../auth/guards/auth.guard';
-import { UserMeta } from '../auth/types/user-meta.type'
+import { UserMeta } from '../auth/types/user-meta.type';
 import { Meta } from '../auth/decorators/meta.decorator';
+import { RequiredRole } from '../auth/decorators/roles.decorator';
+import { Roles } from '../users/enums/roles.enum';
 
 @ApiTags('rooms')
 @Controller('rooms')
@@ -23,6 +26,7 @@ export class RoomsController {
 
   @Post()
   @UseGuards(AuthGuard)
+  @RequiredRole(Roles.ORGANIZATION)
   create(@Body() createRoomDto: CreateRoomDto, @Meta() metaData: UserMeta) {
     return this.roomService.createRoom(createRoomDto, metaData);
   }
@@ -38,7 +42,8 @@ export class RoomsController {
   }
   @Delete(':id')
   @UseGuards(AuthGuard)
-  remove(@Param('id', ParseIntPipe) id: number, @Meta() metaData: UserMeta ) {
+  @RequiredRole(Roles.ORGANIZATION)
+  remove(@Param('id', ParseIntPipe) id: number, @Meta() metaData: UserMeta) {
     return this.roomService.removeRoom(id, metaData);
   }
 }

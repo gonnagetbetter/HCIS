@@ -1,4 +1,4 @@
-import { BadGatewayException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CacheService } from '../cache/cache.service';
 import { RoomRepository } from './repositories/room.repository';
 import { EntityManager, FilterQuery } from '@mikro-orm/core';
@@ -7,8 +7,6 @@ import { BasicCrudService } from '../common/basic-crud.service';
 import { Room } from './entities/room.entity';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { FindRoomArgs } from './args/find-room.args';
-import { UserMeta } from '../auth/types/user-meta.type';
-import { Roles } from '../users/enums/roles.enum';
 
 @Injectable()
 export class RoomsService extends BasicCrudService<Room> {
@@ -21,11 +19,7 @@ export class RoomsService extends BasicCrudService<Room> {
     super(Room, roomRepository, cacheService, entityManager);
   }
 
-  async createRoom(dto: CreateRoomDto, meta: UserMeta) {
-    if (meta.role !== Roles.ORGANIZATION) {
-      throw new BadGatewayException()
-    }
-
+  async createRoom(dto: CreateRoomDto) {
     const hotel = await this.hotelsService.findOne(dto.hotelId);
     const existing = await this.roomRepository.findOne({
       roomNumber: dto.roomNumber,
@@ -37,10 +31,7 @@ export class RoomsService extends BasicCrudService<Room> {
     return this.createOne(dto);
   }
 
-  async removeRoom(id: number, meta: UserMeta) {
-    if (meta.role !== Roles.ORGANIZATION) {
-      throw new BadGatewayException()
-    }
+  async removeRoom(id: number) {
     const filter: FilterQuery<Room> = { id };
     await this.deleteOne(filter);
   }

@@ -25,10 +25,6 @@ export class HotelsService extends BasicCrudService<Hotel> {
   }
 
   async createHotel(dto: CreateHotelDto, meta: UserMeta) {
-    if (meta.role !== Roles.ORGANIZATION) {
-      throw new BadGatewayException();
-    }
-
     const organization = await this.organizationService.findOne(meta.id);
     if (!organization) {
       throw new Error('Organization not found');
@@ -44,10 +40,6 @@ export class HotelsService extends BasicCrudService<Hotel> {
   }
 
   async removeHotel(id: number, meta) {
-    if (meta.role !== Roles.ORGANIZATION) {
-      throw new BadGatewayException();
-    }
-
     const filter: FilterQuery<Hotel> = { id };
     const hotel = await this.findOneOrFail(filter);
     const organization = await this.organizationService.findOneOrFail(meta.id);
